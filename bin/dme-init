@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+var program = require('commander') // command
+var chalk = require('chalk') // console
+var ora = require('ora') // loading
+var rm = require('rimraf').sync // rm -rf
+var git = require('download-git-repo') // git clone
+
+var spinner = ora('Downloading dme-template')
+
+/**
+ * Usage
+ */
+program.usage('[project-name]')
+
+/**
+ * Help doc
+ */
+program.on('--help', function () {
+  console.log('  Examples:\n')
+  console.log(chalk.gray('    # create a project from dme template'))
+  console.log('    $ dme init my-project')
+})
+
+/**
+ * Help (no args)
+ */
+program.parse(process.argv)
+if (program.args.length < 1) return program.help()
+
+/**
+ * init
+ */
+var projectName = program.args[0]
+var uid = Math.random().toString(35).substr(2, 10)
+var tmpPath = '/tmp/dme-' + uid
+spinner.start()
+// return require('../lib/generate')(projectName, '/code/project/dme')
+git('unclay/dme-template', tmpPath, {}, function(err) {
+  spinner.stop()
+  if (err) {
+    return console.error(chalk.red(err))
+  }
+  console.log('download dme-template success')
+  process.on('exit', function () {
+    rm('/tmp/dme-' + uid)
+  })
+  require('../lib/generate')(projectName, tmpPath)
+})
