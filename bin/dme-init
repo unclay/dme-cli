@@ -5,6 +5,7 @@ var chalk = require('chalk') // console
 var ora = require('ora') // loading
 var rm = require('rimraf').sync // rm -rf
 var git = require('download-git-repo') // git clone
+var path = require('path') // git clone
 
 var spinner = ora('Downloading dme-template')
 
@@ -32,6 +33,7 @@ if (program.args.length < 1) return program.help()
  * init
  */
 var projectName = program.args[0]
+var dest = path.resolve(process.cwd(), projectName)
 var uid = Math.random().toString(35).substr(2, 10)
 var tmpPath = '/tmp/dme-' + uid
 spinner.start()
@@ -45,5 +47,10 @@ git('unclay/dme-template', tmpPath, {}, function(err) {
   process.on('exit', function () {
     rm('/tmp/dme-' + uid)
   })
-  require('../lib/generate')(projectName, tmpPath)
+  require('../lib/generate')(projectName, tmpPath, dest, err => {
+    if (err)
+      console.error(err)
+    else
+      console.log('dme init success')
+  })
 })
