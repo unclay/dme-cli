@@ -9,7 +9,7 @@
   "scripts": {
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint test/test.js lib bin --env mocha",
-    "mocha": "mocha test/test.js --compilers js:babel-core/register"
+    "mocha": "rimraf test/mock-tmp-build/* && mocha test/test.js --compilers js:babel-core/register"
   },
   "repository": {
     "type": "git",
@@ -51,6 +51,7 @@
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-2": "^6.13.0",
     "chai": "^3.5.0",
-    "eslint": "^3.5.0"
+    "eslint": "^3.5.0",
+    "mocha": "^3.0.2"
   }
 }
