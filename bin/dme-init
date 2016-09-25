@@ -6,6 +6,8 @@ var ora = require('ora') // loading
 var rm = require('rimraf').sync // rm -rf
 var git = require('download-git-repo') // git clone
 var path = require('path') // git clone
+var exists = require('fs').existsSync
+var inquirer = require('inquirer')
 
 var spinner = ora('Downloading dme-template')
 
@@ -30,27 +32,47 @@ program.parse(process.argv)
 if (program.args.length < 1) return program.help()
 
 /**
- * init
+ * Settings
  */
 var projectName = program.args[0]
-var dest = path.resolve(process.cwd(), projectName)
-var uid = Math.random().toString(35).substr(2, 10)
-var tmpPath = '/tmp/dme-' + uid
-spinner.start()
-// return require('../lib/generate')(projectName, '/code/project/dme')
-git('unclay/dme-template', tmpPath, {}, function(err) {
-  spinner.stop()
-  if (err) {
-    return console.error(chalk.red(err))
-  }
-  console.log('download dme-template success')
-  process.on('exit', function () {
-    rm('/tmp/dme-' + uid)
+var dest = path.resolve(process.cwd(), projectName || '.')
+if (exists(dest)) {
+  inquirer.prompt([{
+    type: 'confirm',
+    message: 'Target directory exists. Continue?',
+    name: 'power'
+  }]).then(answers => {
+    if (answers.power) {
+      run()
+    }
   })
-  require('../lib/generate')(projectName, tmpPath, dest, err => {
-    if (err)
-      console.error(err)
-    else
-      console.log('dme init success')
+} else {
+  run()
+}
+
+/**
+ * run
+ */
+function run () {
+  var uid = Math.random().toString(35).substr(2, 10)
+  var tmpPath = '/tmp/dme-' + uid
+  spinner.start()
+  // return require('../lib/generate')(projectName, '/code/project/dme')
+  git('unclay/dme-template', tmpPath, {}, function(err) {
+    spinner.stop()
+    if (err) {
+      return console.error(chalk.red(err))
+    }
+    console.log('download dme-template success')
+    process.on('exit', function () {
+      rm('/tmp/dme-' + uid)
+    })
+    require('../lib/generate')(projectName, tmpPath, process.cwd(), err => {
+      if (err)
+        console.error(err)
+      else
+        console.log('dme init success')
+    })
   })
-})
+}
+

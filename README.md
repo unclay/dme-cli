@@ -4,17 +4,23 @@ A simple cli for create DME project
 
 # Installation
 
-  $ npm install -g dme-cli
+``` bash
+$ npm install -g dme-cli
+```
 
 # Usage
-  
-  $ dme init <project-name>
+
+``` bash
+$ dme init <project-name>
+```
 
 # Quick start
 
-  # init a project with dme-template
-  dme init my-project
-  cd my-project
-  # or cnpm install
-  npm install
-  npm run dev
+``` bash
+# init a project with dme-template
+dme init my-project
+cd my-project
+# or cnpm install
+npm install
+npm run dev
+```

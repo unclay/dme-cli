@@ -1,4 +1,18 @@
 {
-  "name": "dme",
-  "description": "init dme project"
+  "prompts": {
+    "name": {
+      "type": "string",
+      "message": "Project name"
+    },
+    "description": {
+      "type": "string",
+      "message": "Project description",
+      "default": "A dme-cli project"
+    },
+    "author": {
+      "type": "string",
+      "message": "Author"
+    }
+  },
+  "from": "from-mock-tmp"
 }
