@@ -4,7 +4,8 @@
 
 # demo
 
-+ [dem-demos@1.1.0](http://source.unclay.com/dme/1.1.0/index.html)
++ <a href="http://source.unclay.com/dme/1.1.0/index.html" target="_blank">dem-demos@1.1.0</a>
++ <a href="https://github.com/unclay/dme-demos" target="_blank">dem-demos@1.1.0源码</a>
 
 # Installation
 
@@ -28,3 +29,6 @@ cd my-project
 npm install
 npm run dev
 ```
+
+# Template
+下载安装的模板地址: <a href="https://github.com/unclay/dme-template" target="_blank">dme-template</a>
