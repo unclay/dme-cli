@@ -1,11 +1,11 @@
 <p align="center">
   <a href="http://source.unclay.com/dme/1.1.0/index.html" target="_blank">
-    <img src="https://raw.githubusercontent.com/unclay/dme-cli/master/logo.png">
+    <img src="https://raw.githubusercontent.com/unclay/dme-cli/master/logo.png" width="100">
   </a>
 </p>
 <p align="center">
-  [![CircleCI branch](https://img.shields.io/circleci/project/unclay/dme-cli/master.svg)](https://circleci.com/gh/unclay/dme-cli)
-  [![npm package](https://img.shields.io/npm/v/dme-cli.svg)](https://www.npmjs.com/package/dme-cli)
+  <a href="https://circleci.com/gh/unclay/dme-cli"><img src="https://img.shields.io/circleci/project/unclay/dme-cli/master.svg" alt="CircleCI branch"></a>
+  <a href="https://www.npmjs.com/package/dme-cli"><img src="https://img.shields.io/npm/v/dme-cli.svg" alt="npm package"></a>
   <br>
 </p>
 <p align="center">仿造spmjs搭建的一个组件开发引擎，基于webpack＋vue＋less＋es6来构建的</p>
