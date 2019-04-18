@@ -8,8 +8,7 @@ var git = require('download-git-repo') // git clone
 var path = require('path') // git clone
 var exists = require('fs').existsSync
 var inquirer = require('inquirer')
-
-var spinner = ora('Downloading dme-template')
+var generate = require('../lib/generate')
 
 /**
  * Usage
@@ -22,7 +21,11 @@ program.usage('[project-name]')
 program.on('--help', function () {
   console.log('  Examples:\n')
   console.log(chalk.gray('    # create a project from dme template'))
-  console.log('    $ dme init my-project')
+  console.log('    $ dme init my-project\n')
+  console.log(chalk.gray('    # create a project from local template'))
+  console.log('    $ dme init my-project /code/github/local-template\n')
+  console.log(chalk.gray('    # create a project from git\'s origin template'))
+  console.log('    $ dme init my-project BozhongFE/xxx-template')
 })
 
 /**
@@ -35,6 +38,7 @@ if (program.args.length < 1) return program.help()
  * Settings
  */
 var projectName = program.args[0]
+var templatePath = program.args[1] || 'unclay/dme-template'
 var dest = path.resolve(process.cwd(), projectName || '.')
 if (exists(dest)) {
   inquirer.prompt([{
@@ -56,23 +60,34 @@ if (exists(dest)) {
 function run () {
   var uid = Math.random().toString(35).substr(2, 10)
   var tmpPath = '/tmp/dme-' + uid
-  spinner.start()
-  // return require('../lib/generate')(projectName, '/code/project/dme')
-  git('unclay/dme-template', tmpPath, {}, function(err) {
-    spinner.stop()
-    if (err) {
-      return console.error(chalk.red(err))
-    }
-    console.log('download dme-template success')
-    process.on('exit', function () {
-      rm('/tmp/dme-' + uid)
+  // is local
+  if (exists(templatePath)) {
+    generate(projectName, templatePath, process.cwd(), function (err) {
+      if (err) console.error(err)
+      console.log('dme init success')
     })
-    require('../lib/generate')(projectName, tmpPath, process.cwd(), err => {
-      if (err)
-        console.error(err)
-      else
-        console.log('dme init success')
+  } else {
+    var spinner = ora(`Downloading ${templatePath}`);
+    spinner.start()
+    // return require('../lib/generate')(projectName, '/code/project/dme')
+    git(templatePath, tmpPath, {}, function(err) {
+      spinner.stop()
+      if (err) {
+        return console.error(chalk.red(err))
+      }
+      console.log(`download ${templatePath.split('/')[1]} success`)
+      process.on('exit', function () {
+        rm('/tmp/dme-' + uid)
+      })
+      require('../lib/generate')(projectName, tmpPath, process.cwd(), err => {
+        if (err) {
+          err.check = err.path.replace(tmpPath, templatePath)
+          console.error(err)
+        } else
+          console.log('dme init success')
+      })
     })
-  })
+  }
+  
 }
 

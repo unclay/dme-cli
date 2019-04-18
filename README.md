@@ -9,6 +9,7 @@
   <br>
 </p>
 <p align="center">仿造spmjs搭建的一个组件开发引擎，基于webpack＋vue＋less＋es6来构建的</p>
+<p align="center">支持自己定制模版，初始化自己的模版，以上只是内置的模版</p>
 
 # demo
 
@@ -40,3 +41,9 @@ npm run dev
 
 # Template
 下载安装的模板地址: <a href="https://github.com/unclay/dme-template" target="_blank">dme-template</a>
+
+# History
+
+|版本号|变更内容|
+|----|----|
+|0.0.4|新增模版参数，支持远程git模版、本地模版（便于开发新模版）,Buffer()弃用换新方法，更新依赖库，单元测试待定
