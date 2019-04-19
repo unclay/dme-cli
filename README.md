@@ -34,9 +34,20 @@ $ dme init <project-name>
 # init a project with dme-template
 dme init my-project
 cd my-project
+
 # or cnpm install
 npm install
 npm run dev
+```
+
+# Use more template
+
+```bash
+# origin template
+dme init my-project BozhongFE/xxx-template
+
+# local template(dev new template)
+dme init my-project /code/xxx-template
 ```
 
 # Template
@@ -46,4 +57,4 @@ npm run dev
 
 |版本号|变更内容|
 |----|----|
-|0.0.4|新增模版参数，支持远程git模版、本地模版（便于开发新模版）,Buffer()弃用换新方法，更新依赖库，单元测试待定
+|0.0.4|新增模版参数，支持远程git模版、本地模版（便于开发新模版）,<br/>Buffer()弃用换新方法，更新依赖库，单元测试待定
